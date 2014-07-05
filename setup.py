@@ -1,6 +1,6 @@
 # -*- coding: utf-8 *-*
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Utility function to read the README file.
 # Used for the long_description.  It's nice, because now 1) we have a top level
@@ -17,7 +17,7 @@ setup(
     description=("Nice python tools to stay sane."),
     license="BSD",
     url="https://github.com/katakumpo/nicepy",
-    packages=['nicepy'],
+    packages=find_packages(exclude=['tests*']),
     long_description=read('README'),
     classifiers=[
         "Development Status :: 3 - Alpha",
