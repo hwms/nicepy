@@ -11,10 +11,10 @@ def read(fname):
 
 setup(
     name="nicepy",
-    version="0.0.1",
+    version="0.0.2",
     author="Mathias Seidler",
     author_email="seishin@gmail.com",
-    description=("Nice python tools to stay sane."),
+    description=("Nice python tools for those who want to stay sane."),
     license="BSD",
     url="https://github.com/katakumpo/nicepy",
     packages=find_packages(exclude=['tests*']),
