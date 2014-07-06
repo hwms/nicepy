@@ -87,3 +87,59 @@ class TestDefaultArgsFromAttrs:
         assert (3, 1, 2) == a.m1(3)
         assert (3, 4, 2) == a.m1(3, 4)
         assert (3, 4, 5) == a.m1(3, 4, 5)
+
+    def test_with_default_and_attr_kwarg_and_set_attrs(self):
+        class A(object):
+            def __init__(self):
+                self.x = 0
+                self.z = 2
+
+            @default_args(y=1, attrs='z', set_attrs=True)
+            def m1(self, x, y, v):
+                print 'm1', x, y, v
+                return x, y, v
+
+            @default_args(y=1, attrs='z', set_attrs='y')
+            def m2(self, x, y, v):
+                print 'm1', x, y, v
+                return x, y, v
+
+        a = A()
+        assert (0, 1, 2) == a.m1()
+        assert 0 == a.x
+        assert 1 == a.y
+
+        a = A()
+        assert (3, 1, 2) == a.m1(3)
+        assert 3 == a.x
+        assert 1 == a.y
+
+        a = A()
+        assert (3, 4, 2) == a.m1(3, 4)
+        assert 3 == a.x
+        assert 4 == a.y
+
+        a = A()
+        assert (3, 4, 5) == a.m1(3, 4, 5)
+        assert 3 == a.x
+        assert 4 == a.y
+
+        a = A()
+        assert (0, 1, 2) == a.m2()
+        assert 0 == a.x
+        assert 1 == a.y
+
+        a = A()
+        assert (3, 1, 2) == a.m2(3)
+        assert 0 == a.x
+        assert 1 == a.y
+
+        a = A()
+        assert (3, 4, 2) == a.m2(3, 4)
+        assert 0 == a.x
+        assert 4 == a.y
+
+        a = A()
+        assert (3, 4, 5) == a.m2(3, 4, 5)
+        assert 0 == a.x
+        assert 4 == a.y

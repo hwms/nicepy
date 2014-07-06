@@ -30,6 +30,7 @@ class default_args(wrap_decorator):
     def __init__(self, *args, **kwargs):
         super(default_args, self).__init__(*args, **kwargs)
         self.defaults = {}
+        self.attrs_to_set = []
 
     def get_attrs(self):
         attrs = []
@@ -41,11 +42,23 @@ class default_args(wrap_decorator):
             if attr in self.kwargs:
                 self.defaults[attr] = self.kwargs.pop(attr)
         attrs = self.func_attrs[:len(self.func_attrs) - len(attrs)] + attrs
+
+        if 'set_attrs' in self.kwargs:
+            self.attrs_to_set = self.kwargs.pop('set_attrs')
+            if isinstance(self.attrs_to_set, bool):
+                self.attrs_to_set = attrs[:]
+            elif isinstance(self.attrs_to_set, str):
+                self.attrs_to_set = self.attrs_to_set.split(' ')
+
         return attrs
 
     def wrap(self, *args, **kwargs):
-        args = list(args)
-        attrs = self.attrs[len(args):]
+        values = list(args)
+        attrs = self.attrs[len(values):]
         for attr in attrs:
-            args.append(getattr(self.instance, attr, self.defaults.get(attr, None)))
-        return self.func(self.instance, *args, **kwargs)
+            values.append(getattr(self.instance, attr, self.defaults.get(attr, None)))
+        if self.attrs_to_set:
+            for attr, value in filter(lambda (a, v): a in self.attrs_to_set,
+                                      zip(self.attrs, values)):
+                setattr(self.instance, attr, value)
+        return self.func(self.instance, *values, **kwargs)
