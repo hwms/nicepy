@@ -1,1 +1,2 @@
-# -*- coding: utf-8 *-*
+from nicepy.decorators import *
+from nicepy.shortcuts import *
