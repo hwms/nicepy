@@ -1,4 +1,4 @@
-# -*- coding: utf-8 *-*
+from __future__ import absolute_import
 import inspect
 from collections import OrderedDict
 from datetime import datetime
