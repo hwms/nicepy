@@ -58,7 +58,7 @@ class default_args(wrap_decorator):
         for attr in attrs:
             values.append(getattr(self.instance, attr, self.defaults.get(attr, None)))
         if self.attrs_to_set:
-            for attr, value in filter(lambda (a, v): a in self.attrs_to_set,
+            for attr, value in filter(lambda i: i[0] in self.attrs_to_set,
                                       zip(self.attrs, values)):
                 setattr(self.instance, attr, value)
         return self.func(self.instance, *values, **kwargs)

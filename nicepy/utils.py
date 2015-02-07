@@ -7,7 +7,7 @@ __all__ = ['ljust_all', 'showme', 'permuteflat', 'pretty_repr', 'rjust_all']
 
 def showme():
     frame = inspect.stack()[1][0]
-    print '%s()' % inspect.getframeinfo(frame).function
+    print('%s()' % inspect.getframeinfo(frame).function)
     arginfo = inspect.getargvalues(frame)
 
     local_vars = arginfo.locals
@@ -21,7 +21,7 @@ def showme():
                 local_vars[k] = v
 
     format_str = '\t{0[0]:<%d} = {0[1]}' % max(map(len, local_vars.keys()))
-    print '\n'.join(map(format_str.format, local_vars.items()))
+    print('\n'.join(map(format_str.format, local_vars.items())))
 
 
 def permuteflat(*args):
@@ -85,7 +85,7 @@ def pretty_repr(value, ignore_own_repr=False):
         # strip the datetime module, because we mostly use from imports
         return repr(value).split('.')[1]
     if hasattr(value, '__dict__'):
-        kwargs_str = ', '.join(map(lambda (k, v): '%s=%s' % (k, pretty_repr(v)),
+        kwargs_str = ', '.join(map(lambda i: '%s=%s' % (i[0], pretty_repr(i[1])),
                                    sorted(value.__dict__.iteritems())))
 
         return '%s(%s)' % (value.__class__.__name__, kwargs_str)
